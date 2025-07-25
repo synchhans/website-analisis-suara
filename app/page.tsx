@@ -37,7 +37,7 @@ export default function HomePage() {
           Analisis Kepribadian dari Suara
         </h1>
         <p className="text-lg text-gray-600 mb-8">
-          Rekam suara Anda dan biarkan AI mengungkap kepribadian Anda.
+          Rekam suara Anda dan biarkan AI menganalisis kepribadian Anda.
         </p>
 
         <div className="bg-white p-8 rounded-xl shadow-md">
@@ -70,7 +70,6 @@ export default function HomePage() {
                 <h2 className="text-2xl font-semibold border-b pb-2 mb-4">
                   Hasil Analisis
                 </h2>
-                {/* Kita gunakan whitespace-pre-wrap agar format dari AI (seperti baris baru) tetap terjaga */}
                 <p className="bg-gray-100 p-4 rounded-lg whitespace-pre-wrap font-mono text-sm leading-relaxed">
                   {analysisResult.personalityAnalysis}
                 </p>
@@ -84,9 +83,6 @@ export default function HomePage() {
             </div>
           )}
         </div>
-        <footer className="mt-8 text-sm text-gray-500">
-          <p>Powered by Next.js, OpenRouter, and MongoDB</p>
-        </footer>
       </div>
     </main>
   );

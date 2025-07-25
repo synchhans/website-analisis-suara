@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 
-// Tipe untuk props agar bisa komunikasi dengan parent component
 interface AudioRecorderProps {
   onAnalysisComplete: (data: {
     transcription: string;
@@ -25,21 +24,24 @@ export default function AudioRecorder({
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current = new MediaRecorder(stream, {
+        mimeType: "audio/webm",
+      });
 
       mediaRecorderRef.current.ondataavailable = (event) => {
         audioChunksRef.current.push(event.data);
       };
 
       mediaRecorderRef.current.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: "audio/wav" });
+        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
         setAudioBlob(blob);
         audioChunksRef.current = [];
+        stream.getTracks().forEach((track) => track.stop());
       };
 
       mediaRecorderRef.current.start();
       setIsRecording(true);
-      setAudioBlob(null); // Reset audio blob saat mulai merekam
+      setAudioBlob(null);
     } catch (err) {
       console.error("Error accessing microphone:", err);
       onAnalysisError("Tidak bisa mengakses mikrofon. Mohon berikan izin.");
@@ -49,10 +51,6 @@ export default function AudioRecorder({
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
-      // Hentikan track mikrofon agar lampu indikator mati
-      mediaRecorderRef.current.stream
-        .getTracks()
-        .forEach((track) => track.stop());
       setIsRecording(false);
     }
   };
@@ -60,26 +58,26 @@ export default function AudioRecorder({
   const handleAnalyze = async () => {
     if (!audioBlob) return;
 
-    onAnalysisStart(); // Beri tahu parent bahwa analisis dimulai
+    onAnalysisStart();
 
     const formData = new FormData();
-    formData.append("audio", audioBlob, "recording.wav");
+    formData.append("audio", audioBlob, "recording.webm");
 
     try {
       const response = await fetch("/api/analyze", {
         method: "POST",
         body: formData,
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to analyze audio.");
-      }
-
       const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || "Terjadi kesalahan pada server.");
+      }
       onAnalysisComplete(result);
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Gagal menganalisis suara.";
       console.error("Error analyzing audio:", error);
-      onAnalysisError("Gagal menganalisis suara. Coba lagi nanti.");
+      onAnalysisError(errorMessage);
     }
   };
 
