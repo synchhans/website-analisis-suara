@@ -26,28 +26,29 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
       }
+      if (token.email) {
+        const isAdmin = ADMIN_EMAILS.includes(token.email);
+        await dbConnect();
+        const dbUser = await User.findOne({ email: token.email });
+        if (dbUser) {
+          if (isAdmin && dbUser.role !== "admin") {
+            dbUser.role = "admin";
+            await dbUser.save();
+          }
+          token.role = dbUser.role;
+        } else {
+          token.role = isAdmin ? "admin" : "user";
+        }
+      }
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user?.email) {
-        const isAdmin = ADMIN_EMAILS.includes(session.user.email);
-
-        await dbConnect();
-        const dbUser = await User.findOne({ email: session.user.email });
-
-        if (dbUser) {
-          if (isAdmin && dbUser.role !== "admin") {
-            console.log(`Mempromosikan ${dbUser.email} menjadi admin...`);
-            dbUser.role = "admin";
-            await dbUser.save();
-          }
-
-          // @ts-ignore
-          session.user.role = dbUser.role;
-          // @ts-ignore
-          session.user.id = dbUser._id.toString();
-        }
+      if (session.user) {
+        // @ts-expect-error
+        session.user.role = token.role;
+        // @ts-expect-error
+        session.user.id = token.id;
       }
       return session;
     },

@@ -71,7 +71,7 @@ async function AnalysisList({ userId }: { userId: string }) {
           <div className="mt-4 pt-4 border-t text-left space-y-4">
             <div>
               <h3 className="font-semibold text-gray-800">Transkripsi:</h3>
-              <p className="italic text-gray-600">"{analysis.transcription}"</p>
+              <p className="italic text-gray-600">{`"${analysis.transcription}"`}</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-800">
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Riwayat Analisis</h2>
         <Suspense fallback={<AnalysisListSkeleton />}>
-          {/* @ts-ignore */}
+          {/* @ts-expect-error */}
           <AnalysisList userId={session.user.id} />
         </Suspense>
       </div>

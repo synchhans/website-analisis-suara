@@ -11,7 +11,7 @@ function Skeleton() {
 
 export default function Header() {
   const { data: session, status } = useSession();
-  // @ts-ignore
+  // @ts-expect-error
   const isAdmin = session?.user?.role === "admin";
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

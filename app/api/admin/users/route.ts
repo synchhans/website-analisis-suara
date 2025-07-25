@@ -7,7 +7,7 @@ import User from "@/app/models/User";
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    // @ts-ignore
+    // @ts-expect-error
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Akses Ditolak" }, { status: 403 });
     }
