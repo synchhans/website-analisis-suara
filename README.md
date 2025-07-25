@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗣️ Analisis Suara AI - Analisis Kepribadian dari Ucapan
 
-## Getting Started
+Selamat datang di Analisis Suara AI, sebuah aplikasi web modern yang menggunakan kecerdasan buatan untuk menganalisis transkripsi suara Anda dan memberikan wawasan tentang kepribadian Anda berdasarkan model Big Five (OCEAN).
 
-First, run the development server:
+**URL Aplikasi:** [https://analisis-suara.vercel.app](https://analisis-suara.vercel.app)
+
+![Screenshot Aplikasi Analisis Suara](https://imgkub.com/images/2025/07/25/Screenshot-2025-07-26-012800.png)
+
+## ✨ Fitur Utama
+
+- **Transkripsi Suara:** Rekam suara Anda langsung dari browser dan dapatkan transkripsi akurat dalam Bahasa Indonesia.
+- **Analisis Kepribadian Berbasis AI:** Dapatkan skor dan penjelasan untuk 5 sifat kepribadian utama (OCEAN) dari hasil transkripsi.
+- **Autentikasi Aman dengan Google:** Login dengan mudah dan aman menggunakan akun Google Anda.
+- **Dashboard Pengguna:** Lihat riwayat semua analisis yang pernah Anda lakukan, diurutkan dari yang terbaru.
+- **Rate Limiting:** Pengguna anonim memiliki batas 5 analisis per hari untuk menjaga efisiensi API.
+- **Admin Panel Profesional:**
+  - Mengelola daftar pengguna yang diizinkan untuk login (Tambah & Update Role).
+  - Mengubah dan menyempurnakan _prompt_ AI secara dinamis tanpa perlu mengubah kode.
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Bahasa:** TypeScript
+- **Database:** [MongoDB](https://www.mongodb.com/) dengan Mongoose
+- **Autentikasi:** [NextAuth.js (Auth.js)](https://next-auth.js.org/)
+- **Layanan AI:**
+  - **Transkripsi (Suara ke Teks):** [Deepgram](https://deepgram.com/)
+  - **Analisis (Teks ke Kepribadian):** [OpenRouter](https://openrouter.ai/)
+- **Deployment:** [Vercel](https://vercel.com/)
+
+## 🚀 Cara Menjalankan Proyek Secara Lokal
+
+Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di komputer Anda.
+
+### 1. Prasyarat
+
+- [Node.js](https://nodejs.org/) (versi 18.x atau lebih baru)
+- [npm](https://www.npmjs.com/) atau [yarn](https://yarnpkg.com/)
+- Akun MongoDB Atlas, Google Cloud Platform, Deepgram, dan OpenRouter untuk mendapatkan API keys.
+
+### 2. Instalasi
+
+Clone repositori ini dan instal semua dependensi:
+
+```bash
+git clone https://github.com/synchhans/website-analisis-suara.git
+cd website-analisis-suara
+npm install
+```
+
+### 3. Konfigurasi Variabel Lingkungan
+
+Buat file `.env.local` di root proyek dan isi dengan kredensial Anda, bisa hubungi developer via Instagram yang ada di bio untuk mengetahui kredensial yang dibutuhkan.
+
+### 4. Jalankan Server Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat hasilnya.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Dibuat oleh **Muhamad Farhan**.
