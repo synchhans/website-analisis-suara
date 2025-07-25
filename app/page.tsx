@@ -79,9 +79,7 @@ export default function HomePage() {
                 <h3 className="text-xl font-semibold border-b pb-2 mb-4">
                   Transkripsi Ucapan
                 </h3>
-                <p className="bg-gray-100 p-4 rounded-lg italic text-gray-700">
-                  "{analysisResult.transcription}"
-                </p>
+                <p className="bg-gray-100 p-4 rounded-lg italic text-gray-700">{`"${analysisResult.transcription}"`}</p>
               </div>
             </div>
           )}
