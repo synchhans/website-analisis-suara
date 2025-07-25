@@ -11,7 +11,7 @@ function Skeleton() {
 
 export default function Header() {
   const { data: session, status } = useSession();
-  // @ts-expect-error
+  // @ts-expect-error: session.user tidak memiliki properti 'role' secara default
   const isAdmin = session?.user?.role === "admin";
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@deepgram/sdk";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import dbConnect from "@/app/lib/mongodb";
 import Analysis from "@/app/models/Analysis";
 import { openrouter } from "@/app/lib/openrouter";
 import Setting from "@/app/models/Setting";
+import { authOptions } from "@/app/lib/auth";
 
 const deepgram = createClient(process.env.DEEPGRAM_API_KEY!);
 const RATE_LIMIT_COUNT = 5;
@@ -92,7 +92,7 @@ export async function POST(req: NextRequest) {
       analysisResponse.choices[0]?.message?.content ||
       "Analisis tidak dapat dibuat.";
 
-    // @ts-ignore
+    // @ts-expect-error: session.user tidak memiliki properti 'id' secara default
     const userId = session?.user?.id;
     const ipAddress = !session
       ? req.headers.get("x-forwarded-for") ?? "127.0.0.1"

@@ -1,12 +1,19 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import dbConnect from "../lib/mongodb";
 import User from "../models/User";
 import AddUserForm from "../components/AddUserForm";
 import PromptManager from "../components/PromptManager";
+import { authOptions } from "../lib/auth";
 
-async function getUsers() {
+interface UserType {
+  _id: string;
+  name: string;
+  email: string;
+  role: "user" | "admin";
+}
+
+async function getUsers(): Promise<UserType[]> {
   await dbConnect();
   const users = await User.find({}).sort({ name: 1 }).lean();
   return JSON.parse(JSON.stringify(users));
@@ -15,7 +22,7 @@ async function getUsers() {
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
 
-  // @ts-ignore
+  // @ts-expect-error: session.user tidak memiliki properti 'role' secara default
   if (session?.user?.role !== "admin") {
     redirect("/");
   }
@@ -63,7 +70,7 @@ export default async function AdminPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {users.map((user: any) => (
+                {users.map((user: UserType) => (
                   <tr key={user._id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {user.name}

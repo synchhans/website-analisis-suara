@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import dbConnect from "../lib/mongodb";
 import Analysis, { IAnalysis } from "../models/Analysis";
+import { authOptions } from "../lib/auth";
 
 async function getUserAnalyses(userId: string) {
   await dbConnect();
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Riwayat Analisis</h2>
         <Suspense fallback={<AnalysisListSkeleton />}>
-          {/* @ts-expect-error */}
+          {/* @ts-expect-error: session.user tidak memiliki properti 'id' secara default */}
           <AnalysisList userId={session.user.id} />
         </Suspense>
       </div>

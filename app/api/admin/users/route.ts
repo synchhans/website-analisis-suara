@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
 import dbConnect from "@/app/lib/mongodb";
 import User from "@/app/models/User";
+import { authOptions } from "@/app/lib/auth";
 
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    // @ts-expect-error
+    // @ts-expect-error: session.user tidak memiliki properti 'role' secara default
     if (!session || session.user?.role !== "admin") {
       return NextResponse.json({ error: "Akses Ditolak" }, { status: 403 });
     }
